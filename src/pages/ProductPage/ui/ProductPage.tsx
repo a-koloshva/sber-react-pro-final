@@ -5,21 +5,20 @@ import truckSVG from '../../../shared/assets/icons/truck.svg';
 import qualitySVG from '../../../shared/assets/icons/quality.svg';
 import { Rating } from '../../../shared/ui/Rating';
 import { ButtonBack } from '../../../shared/ui/ButtonBack';
-import { LikeButton } from '../../../shared/ui/LikeButton';
-import { ReviewList } from '../../../widgets/ReviewList/ui/ReviewList';
-import { WithProtection } from '../../../shared/store/HOCs/WithProtection';
-import { useGetProductQuery } from '../../../shared/store/api/productsApi';
-import { ProductCartCounter } from '../../../shared/ui/ProductCartCounter/ui/ProductCartCounter';
-import { useAppSelector } from '../../../shared/store/utils';
-import { cartSelectors } from '../../../shared/store/slices/cart';
-import { CartCounter } from '../../../shared/ui/CartCounter';
+import { LikeButton } from '../../../features/toggle-favorite';
+import { ReviewList } from '../../../widgets/ReviewList';
+import { WithProtection } from '../../../features/auth';
+import { useGetProductQuery } from '../../../entities/product';
+import { ProductCartCounter, CartCounter } from '../../../features/cart';
+import { useSelector } from 'react-redux';
+import { cartSelectors } from '../../../entities/cart';
 
 export const ProductPage = WithProtection(() => {
 	const location = useLocation();
 	const { pathname } = location;
 	const productId = pathname.split('/').at(-1) || '';
 
-	const cartProducts = useAppSelector(cartSelectors.getCartProducts);
+	const cartProducts = useSelector(cartSelectors.getCartProducts);
 
 	const { data: product } = useGetProductQuery({ id: productId });
 

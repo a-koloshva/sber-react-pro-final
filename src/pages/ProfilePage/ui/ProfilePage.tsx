@@ -1,7 +1,9 @@
 import s from './ProfilePage.module.css';
 import classNames from 'classnames';
 import { ButtonBack } from '../../../shared/ui/ButtonBack';
-import { WithProtection } from '../../../shared/store/HOCs/WithProtection';
+import { WithProtection } from '../../../features/auth';
+import { Input } from '../../../shared/ui/Input';
+import { Button } from '../../../shared/ui/Button';
 
 export const ProfilePage = WithProtection(() => {
 	return (
@@ -12,7 +14,7 @@ export const ProfilePage = WithProtection(() => {
 				<div className={s['form__row']}>
 					<label className={s['form__label']} htmlFor='name'>
 						{''}
-						<input
+						<Input
 							className={s['input']}
 							name='name'
 							id='name'
@@ -22,7 +24,7 @@ export const ProfilePage = WithProtection(() => {
 					</label>
 					<label className={s['form__label']}>
 						{''}
-						<input
+						<Input
 							className={s['input']}
 							name='about'
 							id='about'
@@ -34,7 +36,7 @@ export const ProfilePage = WithProtection(() => {
 				<div className={s['form__row']}>
 					<label className={s['form__label']}>
 						{''}
-						<input
+						<Input
 							className={s['input']}
 							name='avatar'
 							id='avatar'
@@ -44,7 +46,7 @@ export const ProfilePage = WithProtection(() => {
 					</label>
 					<label className={s['form__label']}>
 						{''}
-						<input
+						<Input
 							className={s['input']}
 							name='email'
 							id='email'
@@ -54,7 +56,7 @@ export const ProfilePage = WithProtection(() => {
 					</label>
 				</div>
 
-				<button
+				<Button
 					type='submit'
 					className={classNames(
 						s['form__btn'],
@@ -62,14 +64,14 @@ export const ProfilePage = WithProtection(() => {
 						s['maxContent']
 					)}>
 					Сохранить
-				</button>
+				</Button>
 			</form>
 			<h2 className={s['form__title']}>Изменить пароль</h2>
 			<form className={classNames(s['form'], s['form'])}>
 				<div className={classNames(s['form__row'], s['form__row_min'])}>
 					<label className={s['form__label']}>
 						{''}
-						<input
+						<Input
 							className={s['input']}
 							name='password'
 							id='password'
@@ -78,7 +80,7 @@ export const ProfilePage = WithProtection(() => {
 						/>
 					</label>
 				</div>
-				<button
+				<Button
 					type='submit'
 					className={classNames(
 						s['form__btn'],
@@ -86,7 +88,7 @@ export const ProfilePage = WithProtection(() => {
 						s['maxContent']
 					)}>
 					Сохранить
-				</button>
+				</Button>
 			</form>
 		</>
 	);

@@ -1,11 +1,12 @@
 import { CartItem } from '../../CartItem';
 import s from '../../CartPage.module.css';
 import classNames from 'classnames';
+import { cartSelectors } from '../../../../../entities/cart';
+import { useSelector } from 'react-redux';
 
-type CartListProps = {
-	products: CartProduct[];
-};
-export const CartList = ({ products }: CartListProps) => {
+export const CartList = () => {
+	const products = useSelector(cartSelectors.getCartProducts);
+
 	return (
 		<div className={classNames(s['cart-list'])}>
 			{products.map((p) => (

@@ -1,12 +1,12 @@
 import s from './CartPage.module.css';
 import classNames from 'classnames';
-import { useAppSelector } from '../../../shared/store/utils';
-import { cartSelectors } from '../../../shared/store/slices/cart';
+import { useSelector } from 'react-redux';
+import { cartSelectors } from '../../../entities/cart';
 import { CartList } from './CartList';
 import { CartAmount } from './CartAmount';
 
 export const CartPage = () => {
-	const products = useAppSelector(cartSelectors.getCartProducts);
+	const products = useSelector(cartSelectors.getCartProducts);
 
 	if (!products.length) {
 		return <h1 className='header-title'>Товаров нет корзине</h1>;
@@ -18,8 +18,8 @@ export const CartPage = () => {
 				<div className={classNames(s['cart-title'])}>
 					<span>{products.length}</span> в корзине
 				</div>
-				<CartList products={products} />
-				<CartAmount products={products} />
+				<CartList />
+				<CartAmount />
 			</div>
 		</div>
 	);

@@ -1,13 +1,13 @@
-import { WithProtection } from '../../../shared/store/HOCs/WithProtection';
-import { WithQuery } from '../../../shared/store/HOCs/WithQuery';
-import { useProducts } from '../../../shared/store/hooks/useProducts';
+import { WithProtection } from '../../../features/auth';
+import { WithQuery } from '../../../shared/ui/QueryState';
+import { useFavoriteProducts } from '../../../features/toggle-favorite';
 import { ButtonBack } from '../../../shared/ui/ButtonBack';
 import { CardList } from '../../../widgets/CardList';
 
 const CardListWithQuery = WithQuery(CardList);
 
 export const FavoritesPage = WithProtection(() => {
-	const { isLoading, isError, products, error } = useProducts();
+	const { isLoading, isError, products, error } = useFavoriteProducts();
 
 	return (
 		<>
