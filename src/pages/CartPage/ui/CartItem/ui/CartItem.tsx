@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { CartProduct, cartActions } from '../../../../../entities/cart';
 import { CartCounter } from '../../../../../features/cart';
 import { Button } from '../../../../../shared/ui/Button';
+import { useCallback } from 'react';
 
 type CartItemProps = {
 	product: CartProduct;
@@ -14,9 +15,9 @@ export const CartItem = ({ product }: CartItemProps) => {
 	const dispatch = useDispatch();
 	const { id, name, images, price, discount } = product;
 
-	const handleDelete = () => {
+	const handleDelete = useCallback(() => {
 		dispatch(cartActions.deleteCartProduct(id));
-	};
+	}, [dispatch, id]);
 	return (
 		<div className={classNames(s['cart-item'])}>
 			<div className={classNames(s['cart-item__desc'])}>

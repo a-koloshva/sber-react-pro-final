@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetProductsQuery } from '../../../entities/product';
 import { userSelectors } from '../../../entities/user';
@@ -9,10 +10,16 @@ export const useFavoriteProducts = () => {
 		searchText: '',
 		page: 1,
 	});
-	const products = data?.products ?? [];
+	const products = useMemo(
+		() =>
+			(data?.products ?? []).filter((product) =>
+				isLiked(product.likes, user?.id)
+			),
+		[data?.products, user?.id]
+	);
 
 	return {
 		...queryState,
-		products: products.filter((product) => isLiked(product.likes, user?.id)),
+		products,
 	};
 };

@@ -9,7 +9,7 @@ export const CartPage = () => {
 	const products = useSelector(cartSelectors.getCartProducts);
 
 	if (!products.length) {
-		return <h1 className='header-title'>Товаров нет корзине</h1>;
+		return <h1 className='header-title'>Товаров нет в корзине</h1>;
 	}
 
 	return (

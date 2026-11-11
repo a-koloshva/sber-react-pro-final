@@ -12,6 +12,7 @@ import { useGetProductQuery } from '../../../entities/product';
 import { ProductCartCounter, CartCounter } from '../../../features/cart';
 import { useSelector } from 'react-redux';
 import { cartSelectors } from '../../../entities/cart';
+import { useMemo } from 'react';
 
 export const ProductPage = WithProtection(() => {
 	const location = useLocation();
@@ -28,7 +29,10 @@ export const ProductPage = WithProtection(() => {
 
 	const { id, name, images, description, price, discount } = product;
 
-	const isProductInCart = !!cartProducts.find((p) => p.id === id);
+	const isProductInCart = useMemo(
+		() => cartProducts.some((p) => p.id === id),
+		[cartProducts, id]
+	);
 
 	return (
 		<>

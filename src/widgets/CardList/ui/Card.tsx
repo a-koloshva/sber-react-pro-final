@@ -8,6 +8,7 @@ import { cartSelectors } from '../../../entities/cart';
 import { useAddToCart, CartCounter } from '../../../features/cart';
 import { Button } from '../../../shared/ui/Button';
 import { Product } from '../../../entities/product';
+import { useCallback, useMemo } from 'react';
 
 type CardProps = {
 	product: Product;
@@ -15,10 +16,16 @@ type CardProps = {
 export const Card = ({ product }: CardProps) => {
 	const { discount, price, name, tags, id, images } = product;
 	const cartProducts = useSelector(cartSelectors.getCartProducts);
-	const isProductInCart = cartProducts.some((p) => p.id === id);
+	const isProductInCart = useMemo(
+		() => cartProducts.some((p) => p.id === id),
+		[cartProducts, id]
+	);
 	const { addProductToCart } = useAddToCart();
 
-	const handleAddToCart = () => addProductToCart({ ...product, count: 1 });
+	const handleAddToCart = useCallback(
+		() => addProductToCart({ ...product, count: 1 }),
+		[addProductToCart, product]
+	);
 
 	return (
 		<article className={s['card']}>
