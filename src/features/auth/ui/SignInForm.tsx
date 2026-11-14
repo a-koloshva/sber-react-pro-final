@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import {
 	Avatar,
 	Box,
@@ -22,6 +22,7 @@ import { userActions } from '../../../entities/user';
 import { getMessageFromError } from '../../../shared/utils';
 
 export const SignInForm: FC = () => {
+	const emailInputRef = useRef<HTMLInputElement>(null);
 	const dispatch = useDispatch();
 	const location = useLocation();
 	// navigate поможет сделать редирект в нужный момент
@@ -45,6 +46,10 @@ export const SignInForm: FC = () => {
 		// валидации, мы используем yup
 		resolver: yupResolver(signInFormSchema),
 	});
+
+	useEffect(() => {
+		emailInputRef.current?.focus();
+	}, []);
 
 	const submitHandler: SubmitHandler<SignInFormValues> = async (values) => {
 		try {
@@ -112,6 +117,7 @@ export const SignInForm: FC = () => {
 								type='email'
 								fullWidth
 								required
+								inputRef={emailInputRef}
 								autoComplete='email'
 								error={!!errors.email?.message}
 								helperText={errors.email?.message}

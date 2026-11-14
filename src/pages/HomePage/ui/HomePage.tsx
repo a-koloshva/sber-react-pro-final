@@ -2,6 +2,7 @@ import { WithProtection } from '../../../features/auth';
 import { WithQuery } from '../../../shared/ui/QueryState';
 import { LoadMore, useProducts } from '../../../features/product-catalog';
 import { CardList } from '../../../widgets/CardList';
+import { ClickCounter } from './ClickCounter';
 
 const CardListWithQuery = WithQuery(CardList);
 
@@ -10,6 +11,7 @@ export const HomePage = WithProtection(() => {
 
 	return (
 		<>
+			<ClickCounter />
 			<CardListWithQuery
 				title='Лакомства'
 				isLoading={isLoading}

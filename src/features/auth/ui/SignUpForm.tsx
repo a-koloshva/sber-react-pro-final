@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -21,6 +21,7 @@ import { getMessageFromError } from '../../../shared/utils';
 import { useSignUpMutation } from '../api/authApi';
 
 export const SignUpForm: FC = () => {
+	const emailInputRef = useRef<HTMLInputElement>(null);
 	const dispatch = useDispatch();
 	// navigate поможет сделать редирект в нужный момент
 	const navigate = useNavigate();
@@ -43,6 +44,10 @@ export const SignUpForm: FC = () => {
 		// валидации, мы используем yup
 		resolver: yupResolver(signUpFormSchema),
 	});
+
+	useEffect(() => {
+		emailInputRef.current?.focus();
+	}, []);
 
 	const submitHandler: SubmitHandler<SignUpFormValues> = async (values) => {
 		try {
@@ -106,6 +111,7 @@ export const SignUpForm: FC = () => {
 								type='email'
 								fullWidth
 								required
+								inputRef={emailInputRef}
 								autoComplete='email'
 								error={!!errors.email?.message}
 								helperText={errors.email?.message}
