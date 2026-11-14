@@ -37,6 +37,10 @@
 	position: relative;
 	width: 34px;
 	height: 34px;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	cursor: pointer;
 }
 
 .header__icons-menu svg {
