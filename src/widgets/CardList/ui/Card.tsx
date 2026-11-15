@@ -8,17 +8,16 @@ import { cartSelectors } from '../../../entities/cart';
 import { useAddToCart, CartCounter } from '../../../features/cart';
 import { Button } from '../../../shared/ui/Button';
 import { Product } from '../../../entities/product';
-import { useCallback, useMemo } from 'react';
+import { memo, useCallback } from 'react';
 
 type CardProps = {
 	product: Product;
 };
-export const Card = ({ product }: CardProps) => {
+export const Card = memo(function Card({ product }: CardProps) {
 	const { discount, price, name, tags, id, images } = product;
-	const cartProducts = useSelector(cartSelectors.getCartProducts);
-	const isProductInCart = useMemo(
-		() => cartProducts.some((p) => p.id === id),
-		[cartProducts, id]
+	const isProductInCart = useSelector(
+		(state: Parameters<typeof cartSelectors.getCartProducts>[0]) =>
+			cartSelectors.getCartProducts(state).some((product) => product.id === id)
 	);
 	const { addProductToCart } = useAddToCart();
 
@@ -77,4 +76,4 @@ export const Card = ({ product }: CardProps) => {
 			)}
 		</article>
 	);
-};
+});

@@ -3,3 +3,4 @@ node_modules
 dist
 dist-esbuild
 dogfood
+.github

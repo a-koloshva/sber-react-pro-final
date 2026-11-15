@@ -1,9 +1,5 @@
 import { ChangeEvent } from 'react';
-import {
-	CartProduct,
-	cartActions,
-	cartSelectors,
-} from '../../../entities/cart';
+import { cartActions, cartSelectors } from '../../../entities/cart';
 import { useDispatch, useSelector } from 'react-redux';
 
 const MIN_COUNT = 1;
@@ -11,9 +7,16 @@ const MAX_COUNT = 99;
 
 export const useCartProductCount = (productId: string) => {
 	const dispatch = useDispatch();
-	const products = useSelector(cartSelectors.getCartProducts);
-	const product = products.find((p) => p.id === productId) as CartProduct;
+	const product = useSelector(
+		(state: Parameters<typeof cartSelectors.getCartProducts>[0]) =>
+			cartSelectors
+				.getCartProducts(state)
+				.find((cartProduct) => cartProduct.id === productId)
+	);
 
+	if (!product) {
+		throw new Error(`Cart product ${productId} was not found`);
+	}
 	const { id, count, stock } = product;
 	const handleIncrement = () => {
 		const newCount = count + 1;
