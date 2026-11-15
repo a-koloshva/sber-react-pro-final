@@ -1,6 +1,7 @@
 import s from './LikeButton.module.css';
 import { ReactComponent as LikeSvg } from '../../../shared/assets/icons/like.svg';
 import classNames from 'classnames';
+import { useOptimistic, useTransition } from 'react';
 import { useSelector } from 'react-redux';
 import { userSelectors } from '../../../entities/user';
 import {
@@ -22,33 +23,45 @@ export const LikeButton = ({ product }: TLikeButtonProps) => {
 
 	const [setLike] = useSetLikeProductMutation();
 	const [deleteLike] = useDeleteLikeProductMutation();
+	const [isPending, startTransition] = useTransition();
 
-	const isLike = isLiked(product.likes, user?.id);
+	const isLikedByUser = isLiked(product.likes, user?.id);
+	const [optimisticIsLiked, setOptimisticIsLiked] =
+		useOptimistic(isLikedByUser);
 
-	const toggleLike = async () => {
+	const toggleLike = () => {
 		if (!accessToken) {
 			toast.warning('Вы не авторизованы');
 			return;
 		}
-		let response;
-		if (isLike) {
-			response = await deleteLike({ productId: product.id });
-		} else {
-			response = await setLike({ productId: product.id });
-		}
 
-		if (response.error) {
-			toast.error(
-				getMessageFromError(response.error, 'Не удалось изменить избранное')
-			);
-		}
+		if (isPending) return;
+
+		const nextIsLiked = !optimisticIsLiked;
+		startTransition(async () => {
+			setOptimisticIsLiked(nextIsLiked);
+
+			try {
+				if (nextIsLiked) {
+					await setLike({ productId: product.id }).unwrap();
+				} else {
+					await deleteLike({ productId: product.id }).unwrap();
+				}
+			} catch (error) {
+				toast.error(
+					getMessageFromError(error, 'Не удалось изменить избранное')
+				);
+			}
+		});
 	};
 
 	return (
 		<Button
 			className={classNames(s['card__favorite'], {
-				[s['card__favorite_is-active']]: isLike,
+				[s['card__favorite_is-active']]: optimisticIsLiked,
 			})}
+			aria-pressed={optimisticIsLiked}
+			disabled={isPending}
 			onClick={toggleLike}>
 			<LikeSvg />
 		</Button>

@@ -4,7 +4,7 @@ import { useProducts } from './useProducts';
 import { catalogActions, catalogSelectors } from './catalogSlice';
 
 interface UseLoadMoreParams {
-	ref: RefObject<HTMLDivElement>;
+	ref: RefObject<HTMLDivElement | null>;
 }
 export const useLoadMore = ({ ref }: UseLoadMoreParams) => {
 	const dispatch = useDispatch();
